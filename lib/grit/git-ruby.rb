@@ -207,9 +207,9 @@ module Grit
 
       def try_run
         ret = ''
-        Timeout.timeout(self.class.git_timeout) do
+#        Timeout.timeout(self.class.git_timeout) do
           ret = yield
-        end
+#        end
         @bytes_read += ret.size
 
         #if @bytes_read > 5242880 # 5.megabytes

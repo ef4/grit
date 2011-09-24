@@ -38,6 +38,7 @@ module Grit
         @git_dir = git_dir
         @options = options
         @packs = []
+        @cache = {}
       end
 
       # returns the loose objects object lazily
@@ -102,9 +103,10 @@ module Grit
 
       # returns GitRuby object of any type given a SHA1
       def get_object_by_sha1(sha1)
+        return @cache[sha1] if @cache[sha1]
         r = get_raw_object_by_sha1(sha1)
-        return nil if !r
-        GitObject.from_raw(r)
+        return @cache[sha1] = nil if !r
+        @cache[sha1] = GitObject.from_raw(r)
       end
 
       # writes a raw object into the git repo
